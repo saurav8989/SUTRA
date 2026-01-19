@@ -2,7 +2,7 @@
 
 ## Tech Stack
 - Backend: Node.js + Express
-- Web: React
+- Web: Vue
 - Android: Kotlin
 - DB: MongoDB
 
