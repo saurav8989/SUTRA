@@ -16,7 +16,6 @@ const patientSchema = mongoose.Schema({
     },
     contact: {
         type: String,
-        required: true,
     },
     address: {
         type: String,

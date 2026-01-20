@@ -7,7 +7,19 @@ import Patient from '../models/Patient.js';
 const registerPatient = asyncHandler(async (req, res) => {
     const { name, age, gender, contact, address, medicalHistory } = req.body;
 
-    // Generate a simple unique ID
+    // Check if patient already exists (by name and contact)
+    if (contact) {
+        const existingPatient = await Patient.findOne({ name, contact });
+        if (existingPatient) {
+            return res.status(200).json({
+                ...existingPatient._doc,
+                isExisting: true,
+                message: 'Patient profile already exists. Using existing record.'
+            });
+        }
+    }
+
+    // Generate a simple unique ID (Always handled by backend for security/consistency)
     const uniqueId = 'PAT-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 1000);
 
     // QR Data could be the uniqueId itself or a signed token containing the ID
@@ -63,4 +75,12 @@ const validateQR = asyncHandler(async (req, res) => {
     }
 });
 
-export { registerPatient, getPatient, validateQR };
+// @desc    Get all patients
+// @route   GET /api/patients
+// @access  Private (Doctor/Staff)
+const getPatients = asyncHandler(async (req, res) => {
+    const patients = await Patient.find({}).sort({ createdAt: -1 });
+    res.json(patients);
+});
+
+export { registerPatient, getPatient, getPatients, validateQR };

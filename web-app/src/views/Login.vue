@@ -1,57 +1,69 @@
 <template>
   <div class="login-container">
-    <h2>Login</h2>
-    <form @submit.prevent="login">
-      <input v-model="email" type="email" placeholder="Email" required />
-      <input v-model="password" type="password" placeholder="Password" required />
+    <h2>SUTRA Login</h2>
+    <form @submit.prevent="handleLogin">
+      <div class="form-group">
+        <label>Email</label>
+        <input v-model="email" type="email" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input v-model="password" type="password" required />
+      </div>
       <button type="submit">Login</button>
+      <p v-if="error" class="error">{{ error }}</p>
     </form>
-    <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
+<script>
+import api from '../services/api';
 
-const email = ref('')
-const password = ref('')
-const error = ref('')
-const router = useRouter()
-
-const login = async () => {
-  try {
-    const res = await axios.post('http://localhost:5001/api/auth/login', {
-      email: email.value,
-      password: password.value
-    })
-    localStorage.setItem('token', res.data.token)
-    localStorage.setItem('user', JSON.stringify(res.data))
-    router.push('/dashboard')
-  } catch (err) {
-    error.value = err.response?.data?.message || 'Login failed'
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      error: ''
+    };
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        const response = await api.post('/auth/login', {
+          email: this.email,
+          password: this.password
+        });
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        this.$router.push('/dashboard');
+      } catch (err) {
+        this.error = err.response?.data?.message || 'Login failed';
+      }
+    }
   }
-}
+};
 </script>
 
 <style scoped>
 .login-container {
   max-width: 300px;
-  margin: 100px auto;
+  margin: 50px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
-input {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
+.form-group {
+  margin-bottom: 15px;
 }
-button {
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.form-group input {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
+  box-sizing: border-box;
 }
 .error {
   color: red;

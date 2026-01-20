@@ -1,0 +1,8 @@
+--- USERS IN DATABASE ---
+- admin@sutra.com (admin)
+- test@test.com (patient)
+- superadmin@test.com (admin)
+- nurse@sutra.com (nurse)
+- doctor@sutra.com (doctor)
+- staff@sutra.com (staff)
+--- END ---

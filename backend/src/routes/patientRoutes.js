@@ -1,10 +1,11 @@
 import express from 'express';
-import { registerPatient, getPatient, validateQR } from '../controllers/patientController.js';
-// import { protect } from '../middleware/authMiddleware.js'; // Will add protection later
+import { registerPatient, getPatient, getPatients, validateQR } from '../controllers/patientController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', registerPatient);
+router.get('/', protect, admin, getPatients);
+router.post('/', protect, admin, registerPatient);
 router.get('/:id', getPatient);
 router.post('/validate-qr', validateQR);
 

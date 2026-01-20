@@ -1,0 +1,11 @@
+Connecting to Atlas... (URI length: 98)
+Using Secret: sutra_secret_key_123
+DB Connected to Atlas
+User Found: Super Admin
+Role: admin
+ID: 696e1e33d64aae1c4bf10885
+SUCCESS: User is admin.
+
+--- VALID TOKEN (Signed with Correct Secret) ---
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NmUxZTMzZDY0YWFlMWM0YmYxMDg4NSIsImlhdCI6MTc2ODgyNTEyMCwiZXhwIjoxNzcxNDE3MTIwfQ.WPAv7lKyuC1-Jqr9MjJ6nj6IZG15x1xxaK_LP0yNxOA
+------------------------------------------------
